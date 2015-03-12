@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Spring MVC - Demo</title>
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+
+</head>
+
+<body>
+<p style="padding: 10px">When you have entered the details for a person that has successfully been persisted, click <a href="people">here</a> (In Chrome) to see the stored data as a REST response.</p>
+<div style="width:40%;padding: 10px;">
+	<form id="personForm" method="post" action="person">
+		<div class="form-group">
+		    <label for="name">Name</label>
+		    <span id="nameError" style="display:none;color: red">Please enter a name</span>
+		    <input type="text" class="form-control" id="name" placeholder="Enter name">
+		</div>
+
+		<div class="form-group">
+			<label for="dateOfBirth">Date of birth</label>
+			<span id="dateOfBirthError" style="display:none;color: red">Please enter a valid date of birth (dd/mm/yyyy)</span>
+			<input id="dateOfBirth" class="form-control" type="date" name="dateOfBirth">
+		</div>
+		<div class="form-group">
+			<label for="name">Number of children</label>
+			<span id="numberOfChildrenError" style="display:none;color: red">Please enter a valid number of children (0 or more)</span>
+			<input id="numberOfChildren" class="form-control" type="number" name="numberOfChildren" placeholder="Enter the number of children">
+		</div>
+		<div id="successMessage" style="display:none;color: green">
+			Person successfully stored in the database.
+		</div>
+		<div>
+			<button class="btn btn-success" type="submit" name="submit">Submit</button>
+		</div>
+	</form>
+	</div>
+</body>
+
+<!-- Load scripts at the end to improve responsiveness of the page load. -->
+<script	src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script>
+	$(document).ready(
+			function() {
+				$('#personForm').submit(
+						function(event) {
+							$('#successMessage').css('display', 'none');
+							$('#nameError').css('display', 'none');
+							$('#dateOfBirthError').css('display', 'none');
+							$('#numberOfChildrenError').css('display', 'none');
+							var name = $('#name').val();
+							var dateOfBirth = $('#dateOfBirth').val();
+							var numberOfChildren = $('#numberOfChildren').val();
+							
+							var data = 'name='
+									+ encodeURIComponent(name)
+									+ '&dateOfBirth='
+									+ encodeURIComponent(dateOfBirth)
+									+ '&numberOfChildren='
+									+ encodeURIComponent(numberOfChildren);
+							$.ajax({
+								url : $("#personForm").attr("action"),
+								data : data,
+								type : "post",
+
+								success : function(response) {
+									$('#successMessage').css('display', 'inline');
+								},
+								error : function(xhr, status, error) {
+									var response = JSON.parse(xhr.responseText);
+									for (var i = 0; i < response.validationErrors.length; i++) {
+										$('#' + response.validationErrors[i] + 'Error').css('display', 'inline');
+									}
+								}
+							});
+							return false;
+						});
+			});
+</script>
+</html>
