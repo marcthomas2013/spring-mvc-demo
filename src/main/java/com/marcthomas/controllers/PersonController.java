@@ -11,10 +11,12 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.marcthomas.dao.PersonRepository;
 import com.marcthomas.model.Person;
@@ -29,7 +31,7 @@ import com.marcthomas.model.Person;
  * 
  * @author marcth
  */
-@RestController
+@Controller
 public class PersonController {
 	private static final Logger log = Logger.getLogger(PersonController.class);
 
@@ -39,9 +41,9 @@ public class PersonController {
 	
 	@Autowired
 	private PersonRepository personRepository;
-
-	@RequestMapping(value = "/person", method = RequestMethod.POST)
-	public ResponseEntity<PersonResponse> createPerson(
+	
+	@RequestMapping(value = "/person")
+	public @ResponseBody ResponseEntity<PersonResponse> createPerson(
 			@RequestParam(NAME_REQUEST_PARAM) String name,
 			@RequestParam(DATE_OF_BIRTH_REQUEST_PARAM) String dateOfBirth,
 			@RequestParam(NUMBER_OF_CHILDREN_REQUEST_PARAM) String numberOfChildren) {
@@ -74,6 +76,12 @@ public class PersonController {
 		return new ResponseEntity<PersonResponse>(personResponse, httpStatus);
 	}
 
+	@RequestMapping("/addperson") 
+	public String greeting(@RequestParam(value="name", required=false, defaultValue="World") String name, Model model) {
+        model.addAttribute("name", name);
+        return "person";
+    }
+	
 	private List<String> validatePerson(String name, String dateOfBirth,
 			String numberOfChildren) {
 		List<String> validationErrors = new ArrayList<String>();
