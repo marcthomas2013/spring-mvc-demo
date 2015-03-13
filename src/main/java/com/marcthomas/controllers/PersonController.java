@@ -80,7 +80,7 @@ public class PersonController {
 
 		return new ResponseEntity<PersonResponse>(personResponse, httpStatus);
 	}
-
+	
 	private List<String> validatePerson(String name, String dateOfBirth,
 			String numberOfChildren) {
 		List<String> validationErrors = new ArrayList<String>();
