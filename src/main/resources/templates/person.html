@@ -1,0 +1,45 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8"></meta>
+<title>Spring MVC - Demo</title>
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css"></link>
+
+</head>
+
+<body>
+<p style="padding: 10px">When you have entered the details for a person that has successfully been persisted, click <a href="people">here</a> (In Chrome) to see the stored data as a REST response.</p>
+<div style="width:40%;padding: 10px;">
+	<form id="personForm" method="post" action="person">
+		<div class="form-group">
+		    <label for="name">Name</label>
+		    <span id="nameError" style="display:none;color: red">Please enter a name</span>
+		    <input type="text" class="form-control" id="name" placeholder="Enter name"></input>
+		</div>
+
+		<div class="form-group">
+			<label for="dateOfBirth">Date of birth</label>
+			<span id="dateOfBirthError" style="display:none;color: red">Please enter a valid date of birth (dd/mm/yyyy)</span>
+			<input id="dateOfBirth" class="form-control" type="date" name="dateOfBirth"></input>
+		</div>
+		<div class="form-group">
+			<label for="name">Number of children</label>
+			<span id="numberOfChildrenError" style="display:none;color: red">Please enter a valid number of children (0 or more)</span>
+			<input id="numberOfChildren" class="form-control" type="number" name="numberOfChildren" placeholder="Enter the number of children"></input>
+		</div>
+		<div id="successMessage" style="display:none;color: green">
+			Person successfully stored in the database.
+		</div>
+		<div>
+			<button class="btn btn-success" type="submit" name="submit">Submit</button>
+		</div>
+	</form>
+	</div>
+</body>
+
+<!-- Load scripts at the end to improve responsiveness of the page load. -->
+<script	src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script	src="./js/script.js"></script>
+
+</html>
