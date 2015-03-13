@@ -42,11 +42,25 @@ public class PersonController {
 	@Autowired
 	private PersonRepository personRepository;
 
+	/**
+	 * The entry point for the person data entry form.
+	 * 
+	 * @param model
+	 * @return the view name for the person entry form
+	 */
 	@RequestMapping("/person") 
 	public String greeting(Model model) {
         return "person";
     }
 	
+	/**
+	 * The POST entry point for the AJAX call from the person view.
+	 * 
+	 * @param name of the person to create
+	 * @param dateOfBirth of the person to create
+	 * @param numberOfChildren of the person to create
+	 * @return
+	 */
 	@RequestMapping(value = "/person", method = RequestMethod.POST)
 	public @ResponseBody ResponseEntity<PersonResponse> createPerson(
 			@RequestParam(NAME_REQUEST_PARAM) String name,
